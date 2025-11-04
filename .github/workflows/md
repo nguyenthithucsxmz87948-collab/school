@@ -1,0 +1,79 @@
+# 字段说明（用于与文案比对）
+
+本文档基于 `config/class.txt` 的接口返回，摘取并解释以下板块：
+- 测评总体结果分析
+- 测评总体结果性别分布情况
+- AI 抑郁识别结果分析
+- AI 抑郁识别结果性别分布情况
+- 各维度结果（dimensionResultAnalysis）及其性别分布情况
+
+## 顶层位置
+- 数据根路径：`data`
+
+---
+
+## 测评总体结果分析（overallResultAnalysis）
+- 路径：`data.overallResultAnalysis`
+- 字段：
+  - `dimensionName`：板块名称。例如“测评总体结果分析”。
+  - `ratioItems`：总体结果分布，每个项包含：
+    - `name`：类别名称（如“心理健康状态良好”“心理健康状态不佳”）。
+    - `count`：人数。
+    - `radio`：占比百分数（数值，如 50 表示 50%）。
+  - `dimensionFinding`：总体结果解读文案（用于报告叙述）。
+  - `genderDimensionFinding`：总体结果的性别差异解读文案。
+  - `genderDistribution`：总体结果的性别分布明细，按 `status` 分组：
+    - `status`：对应 `ratioItems.name` 的状态名称。
+    - `genderBreakdown`：性别细分：
+      - `maleCount` / `femaleCount`：男/女人数。
+      - `maleRatio` / `femaleRatio`：男/女占比（百分数）。
+
+## AI 抑郁识别结果分析（aiDepressionResultAnalysis）
+- 路径：`data.aiDepressionResultAnalysis`
+- 字段：
+  - `dimensionName`：板块名称，例如“AI抑郁识别结果分析”。
+  - `ratioItems`：AI 抑郁风险分布（“抑郁风险未知”“无抑郁风险”“存在抑郁风险”）。
+  - `dimensionFinding`：AI 抑郁识别总体解读文案。
+  - `genderDimensionFinding`：AI 抑郁识别性别差异解读文案。
+  - `genderDistribution`：AI 抑郁识别结果的性别分布明细（结构同上）。
+
+## 各维度结果（dimensionResultAnalysis）
+- 路径：`data.dimensionResultAnalysis`（数组）
+- 每个元素（维度）包含：
+  - `dimensionName`：维度名称（如“敌对”“偏执”“躯体化”“强迫症状”“焦虑”“精神病性”“恐怖”“抑郁”“人际关系敏感”“生活不适感”等）。
+  - `ratioItems`：该维度结果分布。每项包括：
+    - `name`：类别名称（与该维度相关的等级或状态）。
+    - `count`：人数。
+    - `radio`：占比百分数。
+  - `dimensionFinding`：该维度总体解读文案。
+  - `genderDimensionFinding`：该维度性别差异解读文案。
+  - `genderDistribution`：该维度的性别分布明细，按 `status` 分组：
+    - `status`：与 `ratioItems.name` 对应的状态。
+    - `genderBreakdown`：性别细分：`maleCount`/`femaleCount` 与 `maleRatio`/`femaleRatio`。
+
+## 额外可参考字段
+- `data.basicOverview.sexRatio`：整体验测样本的性别比例（非上述分析板块的一部分，但可作为总样本性别背景信息）。
+
+---
+
+## 快速字段对照表
+
+| 模块 | 字段 | 含义 | 例子/取值位置 |
+| --- | --- | --- | --- |
+| 总体结果 | `data.overallResultAnalysis.dimensionName` | 模块名称 | “测评总体结果分析” |
+| 总体结果 | `data.overallResultAnalysis.ratioItems` | 总体分布 | 良好/不佳：人数与占比 |
+| 总体结果 | `data.overallResultAnalysis.dimensionFinding` | 总体解读 | 文案字符串 |
+| 总体结果 | `data.overallResultAnalysis.genderDimensionFinding` | 性别差异解读 | 文案字符串 |
+| 总体结果 | `data.overallResultAnalysis.genderDistribution` | 性别分布明细 | 各状态的男女占比 |
+| AI抑郁 | `data.aiDepressionResultAnalysis.dimensionName` | 模块名称 | “AI抑郁识别结果分析” |
+| AI抑郁 | `data.aiDepressionResultAnalysis.ratioItems` | 风险分布 | 未知/无风险/有风险 |
+| AI抑郁 | `data.aiDepressionResultAnalysis.dimensionFinding` | 总体解读 | 文案字符串 |
+| AI抑郁 | `data.aiDepressionResultAnalysis.genderDimensionFinding` | 性别差异解读 | 文案字符串 |
+| AI抑郁 | `data.aiDepressionResultAnalysis.genderDistribution` | 性别分布明细 | 各状态按性别细分 |
+| 维度结果 | `data.dimensionResultAnalysis[].dimensionName` | 维度名称 | 例如“敌对” |
+| 维度结果 | `data.dimensionResultAnalysis[].ratioItems` | 维度分布 | 各等级的占比 |
+| 维度结果 | `data.dimensionResultAnalysis[].dimensionFinding` | 维度解读 | 文案字符串 |
+| 维度结果 | `data.dimensionResultAnalysis[].genderDimensionFinding` | 性别差异解读 | 文案字符串 |
+| 维度结果 | `data.dimensionResultAnalysis[].genderDistribution` | 维度性别分布 | 各状态男女细分 |
+
+
